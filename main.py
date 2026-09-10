@@ -1,11 +1,11 @@
 import asyncio
 import os
 import json
-from mcp.server.fastmcp import FastMCP
+from mcp.server.mcpserver import MCPServer
 import yt_dlp
 
-# মিউজিক সার্ভার ইনিশিয়ালাইজ করা
-mcp = FastMCP("Cloud-Music-Server")
+# মিউজিক সার্ভার ইনিশিয়ালাইজ করা (নতুন v2 নিয়ম অনুযায়ী)
+mcp = MCPServer("Cloud-Music-Server")
 
 @mcp.tool()
 def play_music_from_youtube(song_name: str) -> str:
@@ -28,7 +28,7 @@ def play_music_from_youtube(song_name: str) -> str:
         try:
             search_result = ydl.extract_info(f"ytsearch:{song_name}", download=False)
             if 'entries' in search_result and len(search_result['entries']) > 0:
-                video_data = search_result['entries'][0]
+                video_data = search_result['entries']
                 audio_url = video_data['url']
                 return audio_url
             else:
